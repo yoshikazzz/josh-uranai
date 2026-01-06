@@ -8,22 +8,26 @@
 </head>
 <body>
   <main class="wrap">
-    <!-- キービジュアル -->
-    <header class="hero">
-      <img class="heroImg" src="./img/keyvisual.png" alt="ジョシュ占い 2026 キービジュアル" />
-    </header>
 
-    <!-- 画像ボタン -->
-    <div class="cta">
-      <button id="btn" class="imageButton" type="button" aria-label="今年のジョシュを引く">
-        <img src="./img/btn-josh.png" alt="今年のジョシュを引く" />
-      </button>
-    </div>
+    <!-- ホーム（キービジュアル＋ボタン） -->
+    <section id="home" class="home">
+      <header class="hero">
+        <img class="heroImg" src="./img/keyvisual.png" alt="ジョシュ占い 2026 キービジュアル" />
+      </header>
 
-    <!-- 占い中 -->
-    <section id="loading" class="loading" hidden>
-      <img src="./img/loading.png" class="loadingImage" alt="占い中" />
-      <p class="loadingText">占い中…</p>
+      <div class="cta">
+        <button id="btn" class="imageButton" type="button" aria-label="今年のジョシュを引く">
+          <img src="./img/btn-josh.png" alt="今年のジョシュを引く" />
+        </button>
+      </div>
+    </section>
+
+    <!-- 全画面ローディング（オーバーレイ） -->
+    <section id="loadingOverlay" class="loadingOverlay" hidden aria-live="polite">
+      <div class="loadingInner">
+        <img src="./img/loading.png" class="loadingImage" alt="占い中" />
+        <p class="loadingText">占い中…</p>
+      </div>
     </section>
 
     <!-- 結果 -->
