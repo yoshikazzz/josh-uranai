@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ジョシュ占い 2026</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <!-- キービジュアル -->
+    <header class="hero">
+      <img class="heroImg" src="./img/keyvisual.png" alt="ジョシュ占い 2026 キービジュアル" />
+    </header>
+
+    <!-- 画像ボタン -->
+    <div class="cta">
+      <button id="btn" class="imageButton" type="button" aria-label="今年のジョシュを引く">
+        <img src="./img/btn-josh.png" alt="今年のジョシュを引く" />
+      </button>
+    </div>
+
+    <!-- 占い中 -->
+    <section id="loading" class="loading" hidden>
+      <img src="./img/loading.png" class="loadingImage" alt="占い中" />
+      <p class="loadingText">占い中…</p>
+    </section>
+
+    <!-- 結果 -->
+    <section id="result" class="result" hidden>
+      <div class="card">
+        <p id="kicker" class="kicker"></p>
+
+        <div class="titleFrame">
+          <h2 id="title" class="title"></h2>
+        </div>
+
+        <img id="img" class="resultImage" alt="占い結果画像" />
+
+        <div class="textFrame">
+          <p id="text" class="text"></p>
+        </div>
+      </div>
+
+      <button id="again" class="btnSecondary" type="button">もう一度引く</button>
+    </section>
+
+    <footer class="foot">
+      <small>※ファンメイドのオリジナル占いです（公式とは無関係）</small>
+    </footer>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>
