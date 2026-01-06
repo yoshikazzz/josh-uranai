@@ -27,45 +27,40 @@ fetch("./results.json")
   })
   .catch((err) => {
     console.error(err);
-    const isFile = location.protocol === "file:";
-    if (isFile) {
-      alert("results.json を読むにはローカルサーバが必要です。例: python3 -m http.server 8000 → http://localhost:8000/");
-    } else {
-      alert("results.json の読み込みに失敗しました。ファイル名・配置・パスを確認してください。");
-    }
+    alert("results.json の読み込みに失敗しました。");
   });
 
 function pickRandom() {
   return data[Math.floor(Math.random() * data.length)];
 }
 
+function setButtonsDisabled(disabled) {
+  btn.disabled = disabled;
+  if (again) again.disabled = disabled;
+}
+
 function showLoading() {
-  home.hidden = true;
-  result.hidden = true;
+  home.classList.add("is-hidden");
+  result.classList.add("is-hidden");
 
-  // iOS Safari 互換のため、オプション指定をやめる
-  try {
-    window.scrollTo(0, 0);
-  } catch (e) {
-    // ここで止まらないように握りつぶす
-    console.warn("scrollTo failed:", e);
-  }
+  // ローディングを有効化
+  loadingOverlay.classList.add("is-active");
 
-  loadingOverlay.hidden = false;
+  // 念のため最上部へ
+  try { window.scrollTo(0, 0); } catch {}
 
-  // フェイルセーフ：何かで固まったら解除する（8秒）
+  // フェイルセーフ（8秒で復帰）
   if (safetyTimer) clearTimeout(safetyTimer);
   safetyTimer = setTimeout(() => {
-    loadingOverlay.hidden = true;
-    // home を戻すかは好み。今回は戻して再試行しやすくする
-    home.hidden = false;
-    alert("読み込みが長引いています。もう一度お試しください。");
+    hideLoading();
+    home.classList.remove("is-hidden");
     setButtonsDisabled(false);
+    alert("読み込みが長引いています。もう一度お試しください。");
   }, 8000);
 }
 
 function hideLoading() {
-  loadingOverlay.hidden = true;
+  loadingOverlay.classList.remove("is-active");
   if (safetyTimer) {
     clearTimeout(safetyTimer);
     safetyTimer = null;
@@ -78,20 +73,10 @@ function showResult(item) {
   textEl.textContent = item.text ?? "";
   imgEl.src = item.image ?? "";
 
-  result.hidden = false;
+  result.classList.remove("is-hidden");
 
-  // 結果の先頭へ（iOSでも安定）
-  try {
-    result.scrollIntoView({ behavior: "smooth", block: "start" });
-  } catch {
-    // 古いブラウザ向け
-    window.scrollTo(0, 0);
-  }
-}
-
-function setButtonsDisabled(disabled) {
-  btn.disabled = disabled;
-  if (again) again.disabled = disabled;
+  // 結果先頭へ（スマホでも確実に見せる）
+  try { result.scrollIntoView({ behavior: "smooth", block: "start" }); } catch {}
 }
 
 function startUranai() {

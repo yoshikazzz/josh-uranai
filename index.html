@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ジョシュ占い 2026</title>
   <link rel="stylesheet" href="./style.css" />
+
+  <!-- favicon 404 を消したい場合（任意）：img/favicon.png を置く -->
+  <!-- <link rel="icon" href="./img/favicon.png"> -->
 </head>
 <body>
   <main class="wrap">
@@ -22,16 +25,16 @@
       </div>
     </section>
 
-    <!-- 全画面ローディング（オーバーレイ） -->
-    <section id="loadingOverlay" class="loadingOverlay" hidden aria-live="polite">
+    <!-- 全画面ローディング（デフォルト非表示：JSで active にする） -->
+    <section id="loadingOverlay" class="loadingOverlay" aria-live="polite" aria-busy="true">
       <div class="loadingInner">
         <img src="./img/loading.png" class="loadingImage" alt="占い中" />
         <p class="loadingText">占い中…</p>
       </div>
     </section>
 
-    <!-- 結果 -->
-    <section id="result" class="result" hidden>
+    <!-- 結果（デフォルト非表示：is-hidden） -->
+    <section id="result" class="result is-hidden">
       <div class="card">
         <p id="kicker" class="kicker"></p>
 

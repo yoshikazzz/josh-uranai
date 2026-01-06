@@ -5,11 +5,6 @@
   --text: #222;
 }
 
-/* hidden 属性を確実に非表示にする（GitHub Pages / iOS / Chrome 対策） */
-[hidden] {
-  display: none !important;
-}
-
 body{
   margin: 0;
   background: var(--bg);
@@ -24,11 +19,11 @@ body{
   text-align: center;
 }
 
-/* ホーム（キービジュアル＋ボタン） */
-.hero{
-  margin: 6px auto 10px;
-}
+/* 表示制御（hidden属性に依存しない） */
+.is-hidden{ display: none !important; }
 
+/* ホーム（キービジュアル＋ボタン） */
+.hero{ margin: 6px auto 10px; }
 .heroImg{
   width: 100%;
   height: auto;
@@ -36,9 +31,7 @@ body{
   border-radius: 14px;
 }
 
-.cta{
-  margin: 12px 0 6px;
-}
+.cta{ margin: 12px 0 6px; }
 
 .imageButton{
   border: 0;
@@ -48,31 +41,31 @@ body{
   width: 100%;
   max-width: 420px;
 }
-
 .imageButton img{
   width: 100%;
   height: auto;
   display: block;
 }
-
-.imageButton:active{
-  transform: translateY(1px);
-}
-
+.imageButton:active{ transform: translateY(1px); }
 .imageButton:disabled{
   cursor: not-allowed;
   opacity: .55;
   filter: grayscale(0.2);
 }
 
-/* 全画面ローディング（オーバーレイ） */
+/* 全画面ローディング：デフォルト非表示 */
 .loadingOverlay{
+  display: none;              /* ★ここが重要：初期は絶対に出さない */
   position: fixed;
   inset: 0;
   background: var(--bg);
   z-index: 9999;
-  display: grid;
   place-items: center;
+}
+
+/* active の時だけ表示 */
+.loadingOverlay.is-active{
+  display: grid;
 }
 
 .loadingInner{
@@ -100,9 +93,7 @@ body{
 }
 
 /* 結果 */
-.result{
-  margin-top: 10px;
-}
+.result{ margin-top: 10px; }
 
 .card{
   margin: 0 auto;
@@ -160,11 +151,7 @@ body{
   background: #fff;
   cursor: pointer;
 }
-
-.btnSecondary:disabled{
-  cursor: not-allowed;
-  opacity: .6;
-}
+.btnSecondary:disabled{ cursor: not-allowed; opacity: .6; }
 
 /* フッター */
 .foot{
