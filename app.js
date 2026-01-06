@@ -11,6 +11,7 @@ const textEl = document.getElementById("text");
 const imgEl = document.getElementById("img");
 
 let data = [];
+let safetyTimer = null;
 
 // results.json を読み込み
 fetch("./results.json")
@@ -39,19 +40,36 @@ function pickRandom() {
 }
 
 function showLoading() {
-  // ホームを隠す＆結果も隠す
   home.hidden = true;
   result.hidden = true;
 
-  // 画面最上部へ（ローディングが確実に見える）
-  window.scrollTo({ top: 0, behavior: "instant" });
+  // iOS Safari 互換のため、オプション指定をやめる
+  try {
+    window.scrollTo(0, 0);
+  } catch (e) {
+    // ここで止まらないように握りつぶす
+    console.warn("scrollTo failed:", e);
+  }
 
-  // 全画面ローディング表示
   loadingOverlay.hidden = false;
+
+  // フェイルセーフ：何かで固まったら解除する（8秒）
+  if (safetyTimer) clearTimeout(safetyTimer);
+  safetyTimer = setTimeout(() => {
+    loadingOverlay.hidden = true;
+    // home を戻すかは好み。今回は戻して再試行しやすくする
+    home.hidden = false;
+    alert("読み込みが長引いています。もう一度お試しください。");
+    setButtonsDisabled(false);
+  }, 8000);
 }
 
 function hideLoading() {
   loadingOverlay.hidden = true;
+  if (safetyTimer) {
+    clearTimeout(safetyTimer);
+    safetyTimer = null;
+  }
 }
 
 function showResult(item) {
@@ -62,8 +80,13 @@ function showResult(item) {
 
   result.hidden = false;
 
-  // 結果の先頭へスクロール（モバイルで確実に表示）
-  result.scrollIntoView({ behavior: "smooth", block: "start" });
+  // 結果の先頭へ（iOSでも安定）
+  try {
+    result.scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch {
+    // 古いブラウザ向け
+    window.scrollTo(0, 0);
+  }
 }
 
 function setButtonsDisabled(disabled) {
@@ -89,6 +112,5 @@ function startUranai() {
   }, DURATION);
 }
 
-// 「もう一度引く」では、結果画面からそのまま再抽選でOK（全画面ローディングに戻す）
 btn.addEventListener("click", startUranai);
 if (again) again.addEventListener("click", startUranai);
